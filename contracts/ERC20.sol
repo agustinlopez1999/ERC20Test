@@ -15,8 +15,8 @@ interface IERC20{
 
 contract ERC20Basic is IERC20{
 
-    string public constant name = "ERC20_Test";
-    string public constant symbol = "TEST";
+    string public constant name = "THE BILLIONS";
+    string public constant symbol = "TB";
     uint8 public constant decimals = 18;
 
 
