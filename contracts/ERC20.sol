@@ -15,18 +15,20 @@ interface IERC20{
 
 contract ERC20Basic is IERC20{
 
-    string public constant name = "THE BILLIONS";
-    string public constant symbol = "TB";
+    string public constant name = "MatiGEI";
+    string public constant symbol = "MGY";
     uint8 public constant decimals = 18;
 
 
     using SafeMath for uint256;
 
+    address creator;
     mapping (address => uint) balances;
     mapping (address => mapping(address => uint)) allowed;
     uint256 totalSupply_;
 
     constructor (uint256 initialSupply){
+        creator = msg.sender;
         totalSupply_ = initialSupply;
         balances[msg.sender] = totalSupply_;
     }
@@ -36,6 +38,7 @@ contract ERC20Basic is IERC20{
     }
 
     function increaseTotalSupply(uint newTokensAmount) public{
+        require(msg.sender == creator);
         totalSupply_ +=  newTokensAmount;
         balances[msg.sender] += newTokensAmount;
     }

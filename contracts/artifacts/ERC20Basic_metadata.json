@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.22+commit.4fc1097e"
+		"version": "0.8.18+commit.87f61d96"
 	},
 	"language": "Solidity",
 	"output": {
@@ -267,7 +267,7 @@
 		"compilationTarget": {
 			"contracts/ERC20.sol": "ERC20Basic"
 		},
-		"evmVersion": "shanghai",
+		"evmVersion": "paris",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -280,11 +280,11 @@
 	},
 	"sources": {
 		"contracts/ERC20.sol": {
-			"keccak256": "0x7cf9c6ee8e1b49a41b34d7cf3bac83775f01ed880b6b6444b3a52ecc705d1b06",
+			"keccak256": "0xf64bb3c54e2fecfbb890a08d59e1893373ac6a37b20ed2c904a6d10cb0daa5bc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2955fb062393c4bb55d29dbe291b1ae991c742261871fdcc470474140cb11cd1",
-				"dweb:/ipfs/QmPQywfaJ7NaQ1i1KQ9nisM86bvDwrCgtY9xtUfpartD4H"
+				"bzz-raw://906baeb324ad9cb04150e59409deae29ab0d86b79fc0dd5b14b6313edc299732",
+				"dweb:/ipfs/QmQgwkQLBsZvsxC1vZg9M5kGEBsTkGSTJb3oZXyDKjrSRF"
 			]
 		},
 		"contracts/SafeMath.sol": {
