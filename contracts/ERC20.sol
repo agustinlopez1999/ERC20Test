@@ -14,37 +14,62 @@ interface IERC20{
 
 }
 
-contract ERC20Basic is IERC20{
-    event Transfer(address indexed from, address indexed to, uint256 tokens){
-        _;
-    }
-    event Approval(address indexed owner, address indexed spender, uint256 tokens){
-        _;
-    }
+abstract contract ERC20Basic is IERC20{
+
+    string public constant name = "ERC20_Test";
+    string public constant symbol = "TEST";
+    uint8 public constant decimals = 18;
+
 
     using SafeMath for uint256;
 
+    mapping (address => uint) balances;
+    mapping (address => mapping(address => uint)) allowed;
+    uint256 totalSupply_;
+
+    constructor (uint256 initialSupply){
+        totalSupply_ = initialSupply;
+        balances[msg.sender] = totalSupply_;
+    }
+
     function totalSupply() public override view returns (uint256){
-        return 0;
+        return totalSupply_;
     }
 
-    function balaceOf(address account) public override view returns(uint256){
-        return 0;
+    function increaseTotalSupply(uint newTokensAmount) public{
+        totalSupply_ +=  newTokensAmount;
+        balances[msg.sender] += newTokensAmount;
     }
 
-    function allowance(address owner, address spender) public override view returns(uint256){
-        return 0;
+    function balaceOf(address tokenOwner) public view returns(uint256){
+        return balances[tokenOwner];
     }
 
-    function transfer(address recipient, uint256 amount) public override returns (bool){
-        return false;
+    function allowance(address owner, address delegate) public override view returns(uint256){
+        return allowed[owner][delegate];
     }
 
-    function approve(address spender, uint256 amount) public override returns (bool){
-        return false;
+    function transfer(address recipient, uint256 numTokens) public override returns (bool){
+        require(numTokens <= balances[msg.sender]);
+        balances[msg.sender] = balances[msg.sender].sub(numTokens);
+        balances[recipient] = balances[recipient].add(numTokens);
+        emit Transfer(msg.sender,recipient,numTokens);
+        return true;
     }
 
-    function transferFrom(address sender, address recipient, uint256 amount) public override returns (bool){
+    function approve(address delegate, uint256 numTokens) public override returns (bool){
+        allowed[msg.sender][delegate] = numTokens;
+        emit Approval(msg.sender, delegate, numTokens);
+        return true;
+    }
+
+    function transferFrom(address owner, address buyer, uint256 numTokens) public override returns (bool){
+        require(numTokens <= balances[owner]);
+        require(numTokens <= allowed[owner][msg.sender]);
+        balances[owner] = balances[owner].sub(numTokens);
+        allowed[owner][msg.sender] = allowed[owner][msg.sender].sub(numTokens);
+        balances[buyer] = balances[buyer].add(numTokens);
+        emit Transfer(owner,buyer,numTokens);
         return false;
     }
 
