@@ -11,10 +11,9 @@ interface IERC20{
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
-
 }
 
-abstract contract ERC20Basic is IERC20{
+contract ERC20Basic is IERC20{
 
     string public constant name = "ERC20_Test";
     string public constant symbol = "TEST";
@@ -41,7 +40,7 @@ abstract contract ERC20Basic is IERC20{
         balances[msg.sender] += newTokensAmount;
     }
 
-    function balaceOf(address tokenOwner) public view returns(uint256){
+    function balanceOf(address tokenOwner) public override view returns(uint256){
         return balances[tokenOwner];
     }
 

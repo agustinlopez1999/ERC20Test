@@ -6,6 +6,17 @@
 	"output": {
 		"abi": [
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "initialSupply",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
 				"anonymous": false,
 				"inputs": [
 					{
@@ -108,25 +119,6 @@
 					{
 						"internalType": "address",
 						"name": "tokenOwner",
-						"type": "address"
-					}
-				],
-				"name": "balaceOf",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "account",
 						"type": "address"
 					}
 				],
@@ -288,11 +280,11 @@
 	},
 	"sources": {
 		"contracts/ERC20.sol": {
-			"keccak256": "0x1dea4cc75aea086da2f24e705fc4b936f7241af5b040bd252dedadd5b2f2c240",
+			"keccak256": "0x0315518f1c48935de0ba0fc93f036a250353b523ee8ac79eeb9af940a8dd6f01",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://9a16de9fab56401692516b6c48e14d0a4e70dab8b1c63a49ee1fec851b91b9e4",
-				"dweb:/ipfs/QmeATAEs3yjZYnwQqDnBJNb6Z1BtL9epGqSyYFLX9XKriq"
+				"bzz-raw://aef57a248b49788626fbe024e3269172fa2f8972e59ff09e03563e729269bcaf",
+				"dweb:/ipfs/Qman96EFC2GGuWicwKHwYo7PM7izwpj6J7c6i6Y6n4b4Kn"
 			]
 		},
 		"contracts/SafeMath.sol": {
