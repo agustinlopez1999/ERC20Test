@@ -15,20 +15,25 @@ interface IERC20{
 
 contract ERC20Basic is IERC20{
 
-    string public constant name = "MatiGEI";
-    string public constant symbol = "MGY";
+    string public constant name = "TestERC20";
+    string public constant symbol = "ERC20";
     uint8 public constant decimals = 18;
 
 
     using SafeMath for uint256;
 
-    address creator;
+    address owner;
     mapping (address => uint) balances;
     mapping (address => mapping(address => uint)) allowed;
     uint256 totalSupply_;
 
+    modifier onlyOwner(){
+        require(owner == msg.sender,"Must be Owner");
+        _;
+    }
+
     constructor (uint256 initialSupply){
-        creator = msg.sender;
+        owner = msg.sender;
         totalSupply_ = initialSupply;
         balances[msg.sender] = totalSupply_;
     }
@@ -37,42 +42,49 @@ contract ERC20Basic is IERC20{
         return totalSupply_;
     }
 
-    function increaseTotalSupply(uint newTokensAmount) public{
-        require(msg.sender == creator);
-        totalSupply_ +=  newTokensAmount;
-        balances[msg.sender] += newTokensAmount;
+    function balanceOf(address _tokenOwner) public override view returns(uint256){
+        return balances[_tokenOwner];
     }
 
-    function balanceOf(address tokenOwner) public override view returns(uint256){
-        return balances[tokenOwner];
+    function allowance(address _owner, address _delegate) public override view returns(uint256){
+        return allowed[_owner][_delegate];
     }
 
-    function allowance(address owner, address delegate) public override view returns(uint256){
-        return allowed[owner][delegate];
-    }
-
-    function transfer(address recipient, uint256 numTokens) public override returns (bool){
-        require(numTokens <= balances[msg.sender]);
-        balances[msg.sender] = balances[msg.sender].sub(numTokens);
-        balances[recipient] = balances[recipient].add(numTokens);
-        emit Transfer(msg.sender,recipient,numTokens);
+    function transfer(address _recipient, uint256 _numTokens) public override returns (bool){
+        require(_numTokens <= balances[msg.sender]);
+        balances[msg.sender] = balances[msg.sender].sub(_numTokens);
+        balances[_recipient] = balances[_recipient].add(_numTokens);
+        emit Transfer(msg.sender,_recipient,_numTokens);
         return true;
     }
 
-    function approve(address delegate, uint256 numTokens) public override returns (bool){
-        allowed[msg.sender][delegate] = numTokens;
-        emit Approval(msg.sender, delegate, numTokens);
+    function approve(address _delegate, uint256 _numTokens) public override returns (bool){
+        require(_numTokens <= balances[msg.sender]);
+        allowed[msg.sender][_delegate] = _numTokens;
+        emit Approval(msg.sender, _delegate, _numTokens);
         return true;
     }
 
-    function transferFrom(address owner, address buyer, uint256 numTokens) public override returns (bool){
-        require(numTokens <= balances[owner]);
-        require(numTokens <= allowed[owner][msg.sender]);
-        balances[owner] = balances[owner].sub(numTokens);
-        allowed[owner][msg.sender] = allowed[owner][msg.sender].sub(numTokens);
-        balances[buyer] = balances[buyer].add(numTokens);
-        emit Transfer(owner,buyer,numTokens);
+    function transferFrom(address _owner, address _buyer, uint256 _numTokens) public override returns (bool){
+        require(_numTokens <= balances[_owner]);
+        require(_numTokens <= allowed[_owner][msg.sender]);
+        balances[_owner] = balances[_owner].sub(_numTokens);
+        allowed[_owner][msg.sender] = allowed[_owner][msg.sender].sub(_numTokens);
+        balances[_buyer] = balances[_buyer].add(_numTokens);
+        emit Transfer(_owner,_buyer,_numTokens);
         return false;
     }
+
+    //only owner functions
+    function renounceOwnership() public onlyOwner{
+        owner = address(0);
+    }
+
+
+    function increaseTotalSupply(uint _newTokensAmount) public onlyOwner{
+        totalSupply_ +=  _newTokensAmount;
+        balances[msg.sender] += _newTokensAmount;
+    }
+
 
 }
